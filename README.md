@@ -2,13 +2,25 @@
 
 Suivi d'entraînement en musculation. PWA, hors ligne, données locales.
 
-**En ligne :** https://emilerioux.github.io/reps/
-**Ancienne app, intacte :** https://emilerioux.github.io/workout-tracker/
+**Deux adresses, la même app :**
+- https://emilerioux.github.io/reps/
+- https://emilerioux.github.io/workout-tracker/ — l'ancienne adresse de
+  *Mes Workouts*, conservée pour que l'icône déjà installée sur l'écran
+  d'accueil continue de fonctionner.
 
-Reps est la v2 de *Mes Workouts*. Les deux apps coexistent : Reps ne lit ni
-n'écrit les données de l'ancienne, sauf quand on le lui demande explicitement
-depuis Réglages → *Importer depuis Mes Workouts* — et l'import est une copie,
-jamais un déplacement.
+Même origine, donc **mêmes données** des deux côtés. Le dépôt `reps` est la
+source ; `workout-tracker` en reçoit une copie à chaque déploiement.
+
+Reps remplace *Mes Workouts*. Le code de l'ancienne app vit dans l'historique
+Git du dépôt `workout-tracker` (commit `02a5b00`), et ses données sont toujours
+dans le navigateur. Reps ne les lit que sur demande explicite, depuis
+Réglages → *Importer depuis Mes Workouts* — et c'est une copie, jamais un
+déplacement.
+
+> **L'import doit se faire depuis l'icône déjà installée.** Sur iOS, une app
+> ajoutée à l'écran d'accueil a son propre espace de stockage : les anciennes
+> données sont dans celui de l'ancienne icône. Une icône fraîchement ajoutée
+> depuis `/reps/` ne les verrait pas.
 
 ## Les quatre onglets
 
@@ -83,8 +95,19 @@ cd reps && python3 -m http.server 8811   # puis http://localhost:8811
 Le service worker **ne s'enregistre pas sur localhost** : il resservirait
 l'ancienne version depuis son cache à chaque rechargement.
 
-À chaque déploiement, **bumper `CACHE_NAME` dans `sw.js`**, sinon le téléphone
-sert la version précédente.
+À chaque déploiement, **bumper `VERSION` dans `sw.js`**, sinon le téléphone
+sert la version précédente. Le nom du cache inclut le chemin de déploiement
+(`reps-v6/reps/`, `reps-v6/workout-tracker/`) : les deux adresses partagent
+l'origine, donc sans ça l'activation de l'une effacerait le cache de l'autre.
+
+Déployer sur les deux adresses :
+
+```bash
+cd reps && git push
+cp index.html style.css manifest.json sw.js ../workout-tracker/
+cp -R js icons ../workout-tracker/
+cd ../workout-tracker && git add -A && git commit -m "Synchro depuis reps" && git push
+```
 
 ## Fichiers
 

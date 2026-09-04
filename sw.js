@@ -1,6 +1,6 @@
 /* Bumper CACHE_NAME à CHAQUE déploiement, sinon le téléphone
    garde l'ancienne version en cache. */
-const CACHE_NAME = "reps-v1";
+const CACHE_NAME = "reps-v2";
 const ASSETS = [
   "./",
   "./index.html",

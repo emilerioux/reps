@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reps — Séance</title>
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Reps">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="style.css?v=1">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- ── Chrome haut : matériau translucide, le contenu passe dessous ── -->
+  <header class="chrome-top" id="chrome-top">
+    <button class="icon-btn" id="quit" aria-label="Quitter la séance">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+
+    <div class="head-mid">
+      <p class="head-title" id="program-name">Push Day</p>
+      <p class="head-sub"><span id="clock" class="tnum">0:00</span><span class="dot-sep"></span><span id="head-count">1 sur 6</span></p>
+    </div>
+
+    <button class="icon-btn" id="reset" aria-label="Réinitialiser le prototype">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+    </button>
+
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </header>
+
+  <!-- ── Bandeau record personnel : sort du haut, rentre par le haut ── -->
+  <div class="pr-banner" id="pr-banner" role="status" aria-live="polite">
+    <span class="pr-medal" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M8 3h8l-1.5 5.5"/><path d="M9.5 8.5 8 3"/><circle cx="12" cy="15" r="6"/><path d="m12 12.4 1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2L8.8 14.7l2.2-.3z"/></svg>
+    </span>
+    <span class="pr-text">
+      <strong>Record personnel</strong>
+      <em id="pr-detail">Développé couché · 140 lb</em>
+    </span>
+  </div>
+
+  <!-- ── Pile de cartes d'exercices (glisse horizontale 1:1) ── -->
+  <main class="stack" id="stack" aria-label="Exercices de la séance"></main>
+
+  <!-- ── Chrome bas ── -->
+  <footer class="chrome-bottom">
+    <div class="dots" id="dots" role="tablist" aria-label="Progression dans la séance"></div>
+    <button class="primary" id="commit">
+      <span class="primary-fill" id="primary-fill"></span>
+      <span class="primary-label" id="commit-label">Valider la série 1</span>
+    </button>
+  </footer>
+
+  <!-- ── Coach-mark des gestes (une seule fois) ── -->
+  <div class="hint" id="hint" hidden>
+    <div class="hint-row">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/></svg>
+      <span>Glisse la carte pour changer d'exercice</span>
+    </div>
+    <div class="hint-row">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4"/><path d="m8 8 4-4 4 4"/></svg>
+      <span>Tire un chiffre vers le haut pour l'ajuster</span>
+    </div>
+  </div>
+
+  <!-- ── Fin de séance ── -->
+  <div class="scrim" id="scrim" hidden></div>
+  <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="sheet-scroll">
+      <p class="sheet-kicker">Séance terminée</p>
+      <h2 class="sheet-title" id="sheet-title">Push Day</h2>
+
+      <div class="stat-row">
+        <div class="stat"><span class="stat-val tnum" id="stat-time">0:00</span><span class="stat-key">Durée</span></div>
+        <div class="stat"><span class="stat-val tnum" id="stat-volume">0</span><span class="stat-key">Volume (lb)</span></div>
+        <div class="stat"><span class="stat-val tnum" id="stat-sets">0</span><span class="stat-key">Séries</span></div>
+      </div>
+
+      <div class="sheet-block" id="pr-block" hidden>
+        <p class="block-key">Records battus</p>
+        <ul class="pr-list" id="pr-list"></ul>
+      </div>
+
+      <div class="sheet-block">
+        <p class="block-key">Constance</p>
+        <div class="streak-head">
+          <span class="streak-num" id="streak-num">0</span>
+          <span class="streak-lbl">semaines<br>d'affilée</span>
+        </div>
+        <div class="cal" id="cal" aria-hidden="true"></div>
+        <p class="cal-legend"><span class="cal-swatch"></span> jours d'entraînement · 5 dernières semaines</p>
+      </div>
+
+      <button class="primary sheet-cta" id="sheet-close"><span class="primary-label">Terminé</span></button>
+      <button class="ghost" id="sheet-reset">Réinitialiser le prototype</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="app.js?v=1"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+  }
+</script>
+</body>
+</html>

@@ -1,11 +1,16 @@
 /* Bumper CACHE_NAME à CHAQUE déploiement, sinon le téléphone
    garde l'ancienne version en cache. */
-const CACHE_NAME = "reps-v2";
+const CACHE_NAME = "reps-v5";
 const ASSETS = [
   "./",
   "./index.html",
-  "./style.css?v=1",
-  "./app.js?v=1",
+  "./style.css?v=2",
+  "./js/motion.js?v=2",
+  "./js/data.js?v=2",
+  "./js/chart.js?v=2",
+  "./js/session.js?v=2",
+  "./js/views.js?v=2",
+  "./js/app.js?v=2",
   "./manifest.json",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

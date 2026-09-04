@@ -1,75 +1,105 @@
-# Reps — prototype de l'écran « Séance »
+# Reps
+
+Suivi d'entraînement en musculation. PWA, hors ligne, données locales.
 
 **En ligne :** https://emilerioux.github.io/reps/
 **Ancienne app, intacte :** https://emilerioux.github.io/workout-tracker/
 
-Prototype d'un **seul écran** : la séance guidée. Il sert à juger la direction
-avant de refaire le reste de l'app. L'app d'origine (`../workout-tracker/`)
-n'est ni modifiée ni lue.
+Reps est la v2 de *Mes Workouts*. Les deux apps coexistent : Reps ne lit ni
+n'écrit les données de l'ancienne, sauf quand on le lui demande explicitement
+depuis Réglages → *Importer depuis Mes Workouts* — et l'import est une copie,
+jamais un déplacement.
 
-## Lancer
+## Les quatre onglets
 
-```bash
-cd reps && python3 -m http.server 8811
-# puis http://localhost:8811
-```
+| Onglet | Ce qu'on y fait |
+| --- | --- |
+| **Programmes** | Créer et éditer des programmes (exercices, séries, reps, supersets, couleur). Un programme se lance en séance guidée. |
+| **Historique** | Toutes les entrées groupées par jour, avec le volume du jour. Glisser une ligne vers la gauche pour la supprimer. Ajout manuel possible. |
+| **Progrès** | Courbe de progression par exercice (poids ou reps), poids corporel, photos. |
+| **Réglages** | Import depuis l'ancienne app, export/import de fichier, renommage d'exercices, remise à zéro. |
 
-Ouvre-le en vue mobile (Chrome → Inspecter → icône téléphone) : les gestes
-sont pensés pour le doigt.
+## La séance guidée
 
-## Les gestes à essayer
+C'est l'écran central. Une carte par exercice.
 
 | Geste | Ce qu'il faut sentir |
 | --- | --- |
-| **Glisser la carte** vers la gauche/droite | La carte colle au doigt au pixel près. Un petit coup sec (flick) l'envoie plus loin qu'un glissé lent : l'app calcule où le mouvement *allait* s'arrêter. Au premier et au dernier exercice, ça résiste au lieu de bloquer net. |
-| **Attraper une carte en plein vol** | Elle repart de là où elle est, sans saut. Aucune animation ne verrouille l'écran. |
-| **Tirer un chiffre vers le haut / le bas** | Le poids monte par 2,5 lb, les reps par 1. Un cran = une micro-vibration. |
-| **Valider une série** | Le bouton s'allume en vert dès que l'exercice est bouclé, et l'écran passe tout seul au suivant. |
-| **Battre un record** | Bandeau orange qui descend du haut — et qui remonte **par le même chemin**. Une lueur part du chiffre. |
-| **Fin de séance → tirer la feuille vers le bas** | Elle suit le doigt, résiste vers le haut, et un coup sec la referme même sans être descendue jusqu'en bas. |
+| **Glisser la carte** | Elle colle au doigt au pixel près. Un coup sec l'envoie plus loin qu'un glissé lent : l'app calcule où le mouvement *allait* s'arrêter. Aux extrémités, ça résiste au lieu de bloquer net. |
+| **Attraper une carte en vol** | Elle repart de là où elle est, sans saut. Aucune animation ne verrouille l'écran. |
+| **Tirer un chiffre** | Vers le haut ou le bas : le poids par 2,5 lb, les reps par 1. Un cran = une micro-vibration. Vertical exprès, pour ne pas entrer en conflit avec le glissé horizontal. |
+| **Valider une série** | Le poids de départ est celui de la dernière fois. Un exercice bouclé s'écrit tout de suite dans l'historique — si l'app se ferme en pleine séance, rien n'est perdu. |
+| **Battre un record** | Bandeau qui descend du haut et remonte **par le même chemin**. Une lueur part du chiffre. |
+| **Bord gauche → droite** | Retour depuis une vue poussée, suivi au doigt et annulable en cours de route. |
+| **Tirer une feuille vers le bas** | Elle suit le doigt, résiste vers le haut, et un coup sec la referme même à mi-chemin. |
 
 ## Ce qui vient du langage Apple
 
-- **Ressorts, pas de durées fixes.** Tout est piloté par un ressort à deux
-  paramètres (amortissement + réponse), comme SwiftUI. Il repart toujours de la
-  valeur affichée → interruptible par construction.
+- **Ressorts, pas de durées fixes.** Deux paramètres (amortissement + réponse),
+  comme SwiftUI. Un ressort repart toujours de la valeur affichée → interruptible
+  par construction. Tout est dans `js/motion.js`.
 - **Relais de vitesse.** La vitesse du doigt au relâchement devient la vitesse
   initiale du ressort : aucune couture entre le glissé et l'animation.
-- **Projection de momentum.** `(v/1000)·d/(1−d)` avec `d = 0.998` — la formule
-  du code d'exemple *Designing Fluid Interfaces*, pas la physique scolaire.
+- **Projection de momentum.** `(v/1000)·d/(1−d)` avec `d = 0.998` — la formule du
+  code d'exemple *Designing Fluid Interfaces*, pas la physique scolaire.
 - **Élastique aux bords** plutôt qu'un mur.
-- **Matériaux translucides** en haut et en bas, le contenu passe dessous ;
-  fondu de bord au scroll au lieu d'un filet de 1px.
+- **Matériaux translucides**, le contenu passe dessous ; fondu de bord au scroll
+  au lieu d'un filet de 1px ; la barre de titre compacte se matérialise quand le
+  grand titre sort de l'écran.
+- **Les onglets s'échangent sans transition**, comme sur iOS : un fondu croisé
+  superpose deux pages entières et lisibles, et ça se lit mal.
 - **Typographie** : tracking négatif sur les gros titres, positif sur le
   micro-texte, chiffres tabulaires partout.
-- **Accessibilité** : `prefers-reduced-motion` (les ressorts sautent à la
-  cible, plus de lueur), `prefers-reduced-transparency` (surfaces opaques),
-  `prefers-contrast` (bordures franches).
 
-## Installer sur le téléphone
+## Les graphiques
 
-Ouvre https://emilerioux.github.io/reps/ dans Safari → Partager → « Sur l'écran
-d'accueil ». L'icône est noire avec trois barres vertes — aucun risque de la
-confondre avec l'ancienne (violette). Les deux apps cohabitent.
+Chaque graphique est **mono-série**, et c'est un choix mesuré : sur fond sombre,
+le vert de l'app et l'orange des records ne se distinguent pas en vision
+deutéranope (ΔE 7,1 — sous le seuil de 8 du validateur de palette). Les records
+sont donc marqués par un **anneau et une étiquette**, jamais par une deuxième
+couleur. Un bouton *Voir les valeurs* affiche le tableau : l'information
+n'existe jamais uniquement en image.
 
-À chaque déploiement, **bumper `CACHE_NAME` dans `sw.js`**, sinon le téléphone
-sert l'ancienne version depuis son cache.
+## Accessibilité
+
+`prefers-reduced-motion` (les ressorts sautent à la cible, plus de lueur),
+`prefers-reduced-transparency` (surfaces opaques), `prefers-contrast` (bordures
+franches). L'app est volontairement toujours sombre — c'est un écran de gym.
 
 ## Données
 
-Tout est sous le préfixe **`wt2-`** dans `localStorage` :
-`wt2-sessions`, `wt2-prs`, `wt2-hint-seen`. Rien en commun avec l'app d'origine,
-même si les deux tournent un jour sur le même domaine.
+Tout est sous le préfixe **`wt2-`** dans `localStorage` : `wt2-programs`,
+`wt2-logs`, `wt2-bodyweight`, `wt2-notes`, `wt2-prs`, `wt2-sessions`.
+Les deux apps partagent l'origine `emilerioux.github.io`, donc ce préfixe est
+ce qui garantit qu'on n'écrase jamais l'ancienne. Les photos vivent dans une
+base IndexedDB séparée (`reps-photos`).
 
-Le prototype s'amorce avec un historique plausible (5 semaines de séances) pour
-que le streak et les records aient de quoi se comparer. Le bouton **↺** en haut
-à droite, ou « Réinitialiser le prototype » en bas de la feuille de fin, efface
-tout et recharge.
+## Développement
 
-Un record est volontairement placé sous la valeur par défaut des *Élévations
-latérales* : la première série validée déclenche la célébration.
+```bash
+cd reps && python3 -m http.server 8811   # puis http://localhost:8811
+```
+
+Le service worker **ne s'enregistre pas sur localhost** : il resservirait
+l'ancienne version depuis son cache à chaque rechargement.
+
+À chaque déploiement, **bumper `CACHE_NAME` dans `sw.js`**, sinon le téléphone
+sert la version précédente.
+
+## Fichiers
+
+```
+index.html      coquille : onglets, vue poussée, séance, feuilles
+style.css       tokens, matériaux, composants
+js/motion.js    ressorts, projection, élastique, gestes réutilisables
+js/data.js      modèle, stockage wt2-, import/export, photos
+js/chart.js     graphiques SVG mono-série avec viseur et infobulle
+js/session.js   l'écran de séance
+js/views.js     les quatre onglets, navigation, feuilles, sélecteurs
+js/app.js       amorçage et câblage
+```
 
 ## Pas encore fait
 
-Le reste de la v2 : liste des programmes, onglet Log, Progression, Réglages,
-et l'import des données depuis l'ancienne app.
+Réordonner les exercices d'un programme par glisser-déposer ; minuterie de repos
+entre les séries.

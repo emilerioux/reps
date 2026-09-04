@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Reps — Séance</title>
+<title>Reps</title>
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Reps">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=2">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <link rel="icon" href="icons/icon-192.png" type="image/png">
@@ -18,99 +18,251 @@
 
 <div class="app" id="app">
 
-  <!-- ── Chrome haut : matériau translucide, le contenu passe dessous ── -->
-  <header class="chrome-top" id="chrome-top">
-    <button class="icon-btn" id="quit" aria-label="Quitter la séance">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
+  <!-- ══ PAGES D'ONGLET ══════════════════════════════════ -->
+  <main class="pages" id="pages">
 
-    <div class="head-mid">
-      <p class="head-title" id="program-name">Push Day</p>
-      <p class="head-sub"><span id="clock" class="tnum">0:00</span><span class="dot-sep"></span><span id="head-count">1 sur 6</span></p>
-    </div>
-
-    <button class="icon-btn" id="reset" aria-label="Réinitialiser le prototype">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
-    </button>
-
-    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-  </header>
-
-  <!-- ── Bandeau record personnel : sort du haut, rentre par le haut ── -->
-  <div class="pr-banner" id="pr-banner" role="status" aria-live="polite">
-    <span class="pr-medal" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M8 3h8l-1.5 5.5"/><path d="M9.5 8.5 8 3"/><circle cx="12" cy="15" r="6"/><path d="m12 12.4 1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2L8.8 14.7l2.2-.3z"/></svg>
-    </span>
-    <span class="pr-text">
-      <strong>Record personnel</strong>
-      <em id="pr-detail">Développé couché · 140 lb</em>
-    </span>
-  </div>
-
-  <!-- ── Pile de cartes d'exercices (glisse horizontale 1:1) ── -->
-  <main class="stack" id="stack" aria-label="Exercices de la séance"></main>
-
-  <!-- ── Chrome bas ── -->
-  <footer class="chrome-bottom">
-    <div class="dots" id="dots" role="tablist" aria-label="Progression dans la séance"></div>
-    <button class="primary" id="commit">
-      <span class="primary-fill" id="primary-fill"></span>
-      <span class="primary-label" id="commit-label">Valider la série 1</span>
-    </button>
-  </footer>
-
-  <!-- ── Coach-mark des gestes (une seule fois) ── -->
-  <div class="hint" id="hint" hidden>
-    <div class="hint-row">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/></svg>
-      <span>Glisse la carte pour changer d'exercice</span>
-    </div>
-    <div class="hint-row">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4"/><path d="m8 8 4-4 4 4"/></svg>
-      <span>Tire un chiffre vers le haut pour l'ajuster</span>
-    </div>
-  </div>
-
-  <!-- ── Fin de séance ── -->
-  <div class="scrim" id="scrim" hidden></div>
-  <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
-    <div class="grabber" aria-hidden="true"></div>
-    <div class="sheet-scroll">
-      <p class="sheet-kicker">Séance terminée</p>
-      <h2 class="sheet-title" id="sheet-title">Push Day</h2>
-
-      <div class="stat-row">
-        <div class="stat"><span class="stat-val tnum" id="stat-time">0:00</span><span class="stat-key">Durée</span></div>
-        <div class="stat"><span class="stat-val tnum" id="stat-volume">0</span><span class="stat-key">Volume (lb)</span></div>
-        <div class="stat"><span class="stat-val tnum" id="stat-sets">0</span><span class="stat-key">Séries</span></div>
+    <!-- ── Programmes ── -->
+    <section class="page" id="page-programmes" data-tab="programmes">
+      <div class="page-bar"><span class="page-bar-title">Programmes</span></div>
+      <div class="page-scroll">
+        <h1 class="big-title">Programmes</h1>
+        <p class="big-sub" id="prog-sub"></p>
+        <div id="program-list" class="prog-list"></div>
+        <button class="tile-btn" id="new-program-btn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          Nouveau programme
+        </button>
       </div>
+    </section>
 
-      <div class="sheet-block" id="pr-block" hidden>
-        <p class="block-key">Records battus</p>
-        <ul class="pr-list" id="pr-list"></ul>
+    <!-- ── Historique ── -->
+    <section class="page" id="page-historique" data-tab="historique" hidden>
+      <div class="page-bar"><span class="page-bar-title">Historique</span></div>
+      <div class="page-scroll">
+        <h1 class="big-title">Historique</h1>
+        <p class="big-sub" id="hist-sub"></p>
+        <button class="tile-btn" id="quick-log-btn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          Ajouter une entrée
+        </button>
+        <div id="log-list" class="log-list"></div>
       </div>
+    </section>
 
-      <div class="sheet-block">
-        <p class="block-key">Constance</p>
-        <div class="streak-head">
-          <span class="streak-num" id="streak-num">0</span>
-          <span class="streak-lbl">semaines<br>d'affilée</span>
+    <!-- ── Progrès ── -->
+    <section class="page" id="page-progres" data-tab="progres" hidden>
+      <div class="page-bar"><span class="page-bar-title">Progrès</span></div>
+      <div class="page-scroll">
+        <h1 class="big-title">Progrès</h1>
+
+        <div class="segmented" id="prog-mode">
+          <button type="button" data-mode="exercices" class="on">Exercices</button>
+          <button type="button" data-mode="poids">Poids</button>
+          <button type="button" data-mode="photos">Photos</button>
         </div>
-        <div class="cal" id="cal" aria-hidden="true"></div>
-        <p class="cal-legend"><span class="cal-swatch"></span> jours d'entraînement · 5 dernières semaines</p>
-      </div>
 
-      <button class="primary sheet-cta" id="sheet-close"><span class="primary-label">Terminé</span></button>
-      <button class="ghost" id="sheet-reset">Réinitialiser le prototype</button>
+        <!-- exercices -->
+        <div id="mode-exercices">
+          <button class="picker-pill" id="ex-picker-btn">
+            <span id="ex-picker-label">Choisir un exercice</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="segmented small" id="metric-toggle">
+            <button type="button" data-metric="weight" class="on">Poids</button>
+            <button type="button" data-metric="reps">Reps</button>
+          </div>
+          <div id="ex-stats" class="stat-row"></div>
+          <div class="card-surface">
+            <div id="ex-chart" class="chart-host"></div>
+          </div>
+          <button class="link-btn" id="ex-table-btn" aria-expanded="false">Voir les valeurs</button>
+          <div id="ex-table" class="value-table" hidden></div>
+        </div>
+
+        <!-- poids corporel -->
+        <div id="mode-poids" hidden>
+          <form id="bw-form" class="inline-form">
+            <div class="field">
+              <label for="bw-input">Poids du jour (lb)</label>
+              <input type="number" id="bw-input" step="0.1" min="0" inputmode="decimal" required>
+            </div>
+            <button type="submit" class="primary compact"><span class="primary-label">Ajouter</span></button>
+          </form>
+          <div id="bw-stats" class="stat-row"></div>
+          <div class="card-surface">
+            <div id="bw-chart" class="chart-host"></div>
+          </div>
+          <div id="bw-list" class="log-list"></div>
+        </div>
+
+        <!-- photos -->
+        <div id="mode-photos" hidden>
+          <button class="tile-btn" id="add-photo-btn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Ajouter une photo
+          </button>
+          <input type="file" id="photo-input" accept="image/*" hidden>
+          <div id="photo-grid" class="photo-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Réglages ── -->
+    <section class="page" id="page-reglages" data-tab="reglages" hidden>
+      <div class="page-bar"><span class="page-bar-title">Réglages</span></div>
+      <div class="page-scroll">
+        <h1 class="big-title">Réglages</h1>
+
+        <div class="card-surface block" id="import-card">
+          <h3>Récupérer mes données</h3>
+          <p class="muted" id="import-scan">Analyse…</p>
+          <button class="primary compact" id="import-old-btn"><span class="primary-label">Importer depuis Mes Workouts</span></button>
+          <p class="fineprint">Copie seulement. L'ancienne app garde tout, elle n'est jamais modifiée.</p>
+        </div>
+
+        <div class="card-surface block">
+          <h3>Sauvegarde</h3>
+          <p class="muted">Tes données vivent sur ce téléphone. Exporte-les de temps en temps.</p>
+          <button class="ghost-btn" id="export-btn">Exporter un fichier</button>
+          <label class="ghost-btn" for="import-file">Importer un fichier</label>
+          <input type="file" id="import-file" accept="application/json" hidden>
+        </div>
+
+        <div class="card-surface block">
+          <h3>Exercices</h3>
+          <p class="muted">Renomme un exercice — il se met à jour dans l'historique, les programmes et les records. Ajoute une note technique si tu veux.</p>
+          <button class="ghost-btn" id="manage-ex-btn">Gérer mes exercices</button>
+        </div>
+
+        <div class="card-surface block danger">
+          <h3>Zone rouge</h3>
+          <p class="muted">Efface tout ce que Reps a enregistré sur cet appareil. Sans effet sur l'ancienne app.</p>
+          <button class="ghost-btn danger-btn" id="wipe-btn">Tout effacer</button>
+        </div>
+
+        <p class="fineprint center">Reps — <span id="version-line"></span></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ══ VUE POUSSÉE (détail / éditeur) ══════════════════ -->
+  <section class="pushed" id="pushed" hidden aria-live="polite"></section>
+
+  <!-- ══ BARRE D'ONGLETS ═════════════════════════════════ -->
+  <nav class="tabbar" id="tabbar">
+    <button class="tab on" data-tab="programmes">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="8" height="4" rx="1.2"/><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="M8.5 11h7M8.5 15h5"/></svg>
+      <span>Programmes</span>
+    </button>
+    <button class="tab" data-tab="historique">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4"/><path d="M3 4v4h4"/><path d="M12 8v4.5l3 1.8"/></svg>
+      <span>Historique</span>
+    </button>
+    <button class="tab" data-tab="progres">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16h16"/><path d="m7.5 14.5 3.5-3.5 3 3 5.5-6"/></svg>
+      <span>Progrès</span>
+    </button>
+    <button class="tab" data-tab="reglages">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>
+      <span>Réglages</span>
+    </button>
+  </nav>
+
+  <!-- ══ SÉANCE (plein écran) ════════════════════════════ -->
+  <div class="session" id="session" hidden>
+    <header class="chrome-top" id="chrome-top">
+      <button class="icon-btn" id="quit" aria-label="Quitter la séance">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="head-mid">
+        <p class="head-title" id="program-name">Séance</p>
+        <p class="head-sub"><span id="clock" class="tnum">0:00</span><span class="dot-sep"></span><span id="head-count">1 sur 1</span></p>
+      </div>
+      <span class="icon-btn ghost-slot" aria-hidden="true"></span>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </header>
+
+    <div class="pr-banner" id="pr-banner" role="status" aria-live="polite">
+      <span class="pr-medal" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M8 3h8l-1.5 5.5"/><path d="M9.5 8.5 8 3"/><circle cx="12" cy="15" r="6"/><path d="m12 12.4 1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2L8.8 14.7l2.2-.3z"/></svg>
+      </span>
+      <span class="pr-text"><strong>Record personnel</strong><em id="pr-detail"></em></span>
     </div>
+
+    <main class="stack" id="stack" aria-label="Exercices de la séance"></main>
+
+    <footer class="chrome-bottom">
+      <div class="dots" id="dots"></div>
+      <button class="primary" id="commit">
+        <span class="primary-fill" id="primary-fill"></span>
+        <span class="primary-label" id="commit-label">Valider la série 1</span>
+      </button>
+    </footer>
+
+    <div class="hint" id="hint" hidden>
+      <div class="hint-row"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/></svg><span>Glisse la carte pour changer d'exercice</span></div>
+      <div class="hint-row"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4"/><path d="m8 8 4-4 4 4"/></svg><span>Tire un chiffre vers le haut pour l'ajuster</span></div>
+    </div>
+
+    <div class="scrim" id="sc-scrim" hidden></div>
+    <section class="sheet" id="sc-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+      <div class="grabber" aria-hidden="true"></div>
+      <div class="sheet-scroll">
+        <p class="sheet-kicker">Séance terminée</p>
+        <h2 class="sheet-title" id="sheet-title">Séance</h2>
+        <div class="stat-row">
+          <div class="stat"><span class="stat-val tnum" id="stat-time">0:00</span><span class="stat-key">Durée</span></div>
+          <div class="stat"><span class="stat-val tnum" id="stat-volume">0</span><span class="stat-key">Volume (lb)</span></div>
+          <div class="stat"><span class="stat-val tnum" id="stat-sets">0</span><span class="stat-key">Séries</span></div>
+        </div>
+        <div class="sheet-block" id="pr-block" hidden>
+          <p class="block-key">Records battus</p>
+          <ul class="pr-list" id="pr-list"></ul>
+        </div>
+        <div class="sheet-block">
+          <p class="block-key">Constance</p>
+          <div class="streak-head"><span class="streak-num" id="streak-num">0</span><span class="streak-lbl">semaines<br>d'affilée</span></div>
+          <div class="cal" id="cal" aria-hidden="true"></div>
+          <p class="cal-legend"><span class="cal-swatch"></span> jours d'entraînement · 5 dernières semaines</p>
+        </div>
+        <button class="primary sheet-cta" id="sheet-close"><span class="primary-label">Terminé</span></button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══ FEUILLE GÉNÉRIQUE ═══════════════════════════════ -->
+  <div class="scrim" id="scrim" hidden></div>
+  <section class="sheet modal-sheet" id="sheet" role="dialog" aria-modal="true" hidden>
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="sheet-scroll" id="sheet-body"></div>
   </section>
 
+  <!-- ══ VISIONNEUSE PHOTO ═══════════════════════════════ -->
+  <div class="lightbox" id="lightbox" hidden>
+    <img id="lightbox-img" alt="Photo de progression">
+    <button class="icon-btn lightbox-close" id="lightbox-close" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 </div>
 
-<script src="app.js?v=1"></script>
+<script src="js/motion.js?v=2"></script>
+<script src="js/data.js?v=2"></script>
+<script src="js/chart.js?v=2"></script>
+<script src="js/session.js?v=2"></script>
+<script src="js/views.js?v=2"></script>
+<script src="js/app.js?v=2"></script>
 <script>
-  if ("serviceWorker" in navigator) {
+  /* En local on ne l'enregistre pas : il resservirait l'ancienne
+     version depuis son cache à chaque rechargement pendant le dev. */
+  const local = ["localhost", "127.0.0.1"].includes(location.hostname);
+  if ("serviceWorker" in navigator && !local) {
     addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+  } else if (local && "serviceWorker" in navigator) {
+    navigator.serviceWorker.getRegistrations().then((rs) => rs.forEach((r) => r.unregister()));
+    if (window.caches) caches.keys().then((ks) => ks.forEach((k) => caches.delete(k)));
   }
 </script>
 </body>

@@ -58,6 +58,11 @@ C'est l'écran central. Une carte par exercice.
 - **Projection de momentum.** `(v/1000)·d/(1−d)` avec `d = 0.998` — la formule du
   code d'exemple *Designing Fluid Interfaces*, pas la physique scolaire.
 - **Élastique aux bords** plutôt qu'un mur.
+- **Le document ne défile jamais.** `<html>` porte `overflow: hidden` et
+  `overscroll-behavior: none` — c'est lui l'élément de défilement, le poser sur
+  `<body>` seul n'arrête rien sur iOS — et le corps est fixé au viewport. Seules
+  les zones `.page-scroll` défilent, donc la barre d'onglets ne part jamais avec
+  un rebond de page.
 - **Matériaux translucides**, le contenu passe dessous ; fondu de bord au scroll
   au lieu d'un filet de 1px ; la barre de titre compacte se matérialise quand le
   grand titre sort de l'écran.

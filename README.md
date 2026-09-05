@@ -26,7 +26,7 @@ déplacement.
 
 | Onglet | Ce qu'on y fait |
 | --- | --- |
-| **Programmes** | Créer et éditer des programmes (exercices, séries, reps, supersets, couleur parmi dix). Glisser la poignée d'une ligne réordonne les exercices. Un programme se lance en séance guidée. |
+| **Programmes** | Créer et éditer des programmes (exercices, séries, reps, supersets). Chaque programme reçoit automatiquement une couleur libre — jamais deux fois la même — et la porte partout : filet à gauche de sa carte, de ses exercices, et de chacune de ses entrées d'historique. Glisser la poignée d'une ligne réordonne les exercices. Un programme se lance en séance guidée. |
 | **Historique** | Un calendrier mois par mois — une case pleine = une séance — et dessous les entrées de ce mois, groupées par jour avec leur volume. Toucher une case isole la journée. Glisser une ligne vers la gauche pour la supprimer. Ajout manuel possible. |
 | **Progrès** | Courbe de progression par exercice (poids ou reps), poids corporel, photos. |
 | **Réglages** | Apparence (clair / sombre / système et dix accents), import depuis l'ancienne app, export/import de fichier, renommage d'exercices, remise à zéro. |
@@ -64,6 +64,23 @@ C'est l'écran central. Une carte par exercice.
   superpose deux pages entières et lisibles, et ça se lit mal.
 - **Typographie** : tracking négatif sur les gros titres, positif sur le
   micro-texte, chiffres tabulaires partout.
+
+## La couleur d'un programme
+
+Chaque programme prend la première couleur libre parmi les dix ; au-delà de dix,
+c'est la moins portée qui repasse. `accent` est stocké comme **index**, jamais
+comme hex : c'est pourquoi les six premières couleurs de la liste gardent leur
+rang historique — les réordonner repeindrait les programmes existants.
+
+Le même filet relie ensuite le programme à tout ce qui vient de lui : sa carte,
+la liste de ses exercices, et chaque ligne d'historique qu'il a produite (par
+`programId` ; une entrée manuelle garde un filet neutre, pour que l'alignement
+des lignes ne bouge pas).
+
+Une passe de redistribution corrige **une seule fois** les doublons hérités de
+l'ancienne app (`wt2-accents-v1`). La relancer à chaque démarrage déferait un
+double volontaire — dans l'éditeur, les couleurs déjà portées par un autre
+programme s'affichent en retrait, mais rien n'interdit de les reprendre.
 
 ## Les graphiques
 

@@ -26,10 +26,10 @@ déplacement.
 
 | Onglet | Ce qu'on y fait |
 | --- | --- |
-| **Programmes** | Créer et éditer des programmes (exercices, séries, reps, supersets, couleur). Un programme se lance en séance guidée. |
-| **Historique** | Toutes les entrées groupées par jour, avec le volume du jour. Glisser une ligne vers la gauche pour la supprimer. Ajout manuel possible. |
+| **Programmes** | Créer et éditer des programmes (exercices, séries, reps, supersets, couleur parmi dix). Glisser la poignée d'une ligne réordonne les exercices. Un programme se lance en séance guidée. |
+| **Historique** | Un calendrier mois par mois — une case pleine = une séance — et dessous les entrées de ce mois, groupées par jour avec leur volume. Toucher une case isole la journée. Glisser une ligne vers la gauche pour la supprimer. Ajout manuel possible. |
 | **Progrès** | Courbe de progression par exercice (poids ou reps), poids corporel, photos. |
-| **Réglages** | Import depuis l'ancienne app, export/import de fichier, renommage d'exercices, remise à zéro. |
+| **Réglages** | Apparence (clair / sombre / système et dix accents), import depuis l'ancienne app, export/import de fichier, renommage d'exercices, remise à zéro. |
 
 ## La séance guidée
 
@@ -43,6 +43,8 @@ C'est l'écran central. Une carte par exercice.
 | **Valider une série** | Le poids de départ est celui de la dernière fois. Un exercice bouclé s'écrit tout de suite dans l'historique — si l'app se ferme en pleine séance, rien n'est perdu. |
 | **Battre un record** | Bandeau qui descend du haut et remonte **par le même chemin**. Une lueur part du chiffre. |
 | **Bord gauche → droite** | Retour depuis une vue poussée, suivi au doigt et annulable en cours de route. |
+| **Glisser une poignée** | Réordonner les exercices dans l'éditeur. La rangée se soulève et suit le doigt, les autres s'écartent chacune sur son ressort. Vertical par la poignée, horizontal ailleurs pour supprimer : les deux gestes ne se marchent jamais dessus. |
+| **Glisser le calendrier** | Il résiste au lieu de partir : il annonce qu'il y a un mois de l'autre côté, et c'est la vitesse au relâchement qui décide. Le nouveau mois entre du côté d'où vient le geste. |
 | **Tirer une feuille vers le bas** | Elle suit le doigt, résiste vers le haut, et un coup sec la referme même à mi-chemin. |
 
 ## Ce qui vient du langage Apple
@@ -72,11 +74,28 @@ sont donc marqués par un **anneau et une étiquette**, jamais par une deuxième
 couleur. Un bouton *Voir les valeurs* affiche le tableau : l'information
 n'existe jamais uniquement en image.
 
+## Thème
+
+Deux axes indépendants, dans Réglages → *Apparence*.
+
+- **Le mode** — *Système* (par défaut), *Clair* ou *Sombre*. En mode système, un
+  changement côté iOS s'applique en direct.
+- **L'accent** — dix teintes. Une seule valeur est stockée par teinte : le haut
+  du dégradé, la version texte et les fonds teintés en sont dérivés en
+  `color-mix`. Sur fond clair, l'accent en **texte** est assombri à 55 % — sinon
+  un jaune ou un cyan passe sous 4:1 de contraste ; les **aplats** gardent la
+  couleur pleine, avec une encre claire ou foncée selon la teinte.
+
+Aucune couleur n'est écrite en dur ailleurs que dans les deux blocs de tokens en
+haut de `style.css` : c'est ce qui rend les deux thèmes tenables. Les graphiques
+sont du SVG — leurs couleurs sont lues au tracé, donc `theme.js` émet
+`reps:appearance` et la courbe se redessine.
+
 ## Accessibilité
 
 `prefers-reduced-motion` (les ressorts sautent à la cible, plus de lueur),
 `prefers-reduced-transparency` (surfaces opaques), `prefers-contrast` (bordures
-franches). L'app est volontairement toujours sombre — c'est un écran de gym.
+franches).
 
 ## Données
 
@@ -85,6 +104,9 @@ Tout est sous le préfixe **`wt2-`** dans `localStorage` : `wt2-programs`,
 Les deux apps partagent l'origine `emilerioux.github.io`, donc ce préfixe est
 ce qui garantit qu'on n'écrase jamais l'ancienne. Les photos vivent dans une
 base IndexedDB séparée (`reps-photos`).
+
+Les préférences d'affichage (`wt2-theme`, `wt2-accent`) vivent **hors** de cet
+ensemble : « Tout effacer » vide l'entraînement, pas l'apparence.
 
 ## Développement
 
@@ -113,7 +135,8 @@ cd ../workout-tracker && git add -A && git commit -m "Synchro depuis reps" && gi
 
 ```
 index.html      coquille : onglets, vue poussée, séance, feuilles
-style.css       tokens, matériaux, composants
+style.css       tokens (sombre + clair), matériaux, composants
+js/theme.js     mode clair/sombre, dix accents, tokens dérivés
 js/motion.js    ressorts, projection, élastique, gestes réutilisables
 js/data.js      modèle, stockage wt2-, import/export, photos
 js/chart.js     graphiques SVG mono-série avec viseur et infobulle
@@ -124,5 +147,4 @@ js/app.js       amorçage et câblage
 
 ## Pas encore fait
 
-Réordonner les exercices d'un programme par glisser-déposer ; minuterie de repos
-entre les séries.
+Minuterie de repos entre les séries.

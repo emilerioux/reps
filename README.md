@@ -134,8 +134,12 @@ cd reps && python3 -m http.server 8811   # puis http://localhost:8811
 Le service worker **ne s'enregistre pas sur localhost** : il resservirait
 l'ancienne version depuis son cache à chaque rechargement.
 
-À chaque déploiement, **bumper `VERSION` dans `sw.js`**, sinon le téléphone
-sert la version précédente. Le nom du cache inclut le chemin de déploiement
+À chaque déploiement, **bumper `VERSION` dans `sw.js`** et le `?v=N` des
+scripts. La coquille (`index.html`) passe par le **réseau d'abord**, le reste
+par le cache : sans ça, le nouveau service worker s'installait bien mais la page
+affichée restait l'ancienne, et il fallait rouvrir l'app deux ou trois fois pour
+voir un changement. Quand le nouveau service worker prend la main, la page se
+recharge **une fois**, toute seule. Le nom du cache inclut le chemin de déploiement
 (`reps-v6/reps/`, `reps-v6/workout-tracker/`) : les deux adresses partagent
 l'origine, donc sans ça l'activation de l'une effacerait le cache de l'autre.
 

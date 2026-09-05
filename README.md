@@ -27,14 +27,15 @@ sert qu'une fois.
 
 | Onglet | Ce qu'on y fait |
 | --- | --- |
-| **Programmes** | Créer et éditer des programmes (exercices, séries, reps, supersets). Chaque programme reçoit automatiquement une couleur libre — jamais deux fois la même — et la porte partout : filet à gauche de sa carte, de ses exercices, et de chacune de ses entrées d'historique. Glisser la poignée d'une ligne réordonne les exercices. Un programme se lance en séance guidée. |
+| **Programmes** | Créer et éditer des programmes (exercices, séries, reps, supersets). Chaque programme reçoit automatiquement une couleur libre — jamais deux fois la même — et la porte partout : filet à gauche de sa carte, de ses exercices, et de chacune de ses entrées d'historique. Glisser la poignée d'une ligne réordonne les exercices, le maillon les enchaîne en superset. Un programme se lance en séance guidée. |
 | **Historique** | Un calendrier mois par mois — une case pleine = une séance — et dessous les entrées de ce mois, groupées par jour avec leur volume. Toucher une case isole la journée. Glisser une ligne vers la gauche pour la supprimer. Ajout manuel possible. |
 | **Progrès** | Courbe de progression par exercice (poids ou reps), poids corporel, photos. |
 | **Réglages** | Apparence (clair ou sombre, dix accents), export/import de fichier, renommage d'exercices, récupération depuis l'ancienne app, remise à zéro. |
 
 ## La séance guidée
 
-C'est l'écran central. Une carte par exercice.
+C'est l'écran central. Une carte par **bloc** : un exercice seul, ou
+un superset entier.
 
 | Geste | Ce qu'il faut sentir |
 | --- | --- |
@@ -47,6 +48,34 @@ C'est l'écran central. Une carte par exercice.
 | **Glisser une poignée** | Réordonner les exercices dans l'éditeur. La rangée se soulève et suit le doigt, les autres s'écartent chacune sur son ressort. Vertical par la poignée, horizontal ailleurs pour supprimer : les deux gestes ne se marchent jamais dessus. |
 | **Glisser le calendrier** | Il résiste au lieu de partir : il annonce qu'il y a un mois de l'autre côté, et c'est la vitesse au relâchement qui décide. Le nouveau mois entre du côté d'où vient le geste. |
 | **Tirer une feuille vers le bas** | Elle suit le doigt, résiste vers le haut, et un coup sec la referme même à mi-chemin. |
+
+## Les supersets
+
+Un superset, ce sont des exercices **qui se suivent** et qui portent le
+même numéro de groupe. L'adjacence fait partie de la définition : un
+« A … B … A » serait impossible à enchaîner dans la salle, alors la
+lecture se fait par suites contiguës (`supersetRuns`), jamais par un
+simple décompte de groupes.
+
+**Les créer.** À l'ajout, la case « Superset avec … » le chaîne au
+précédent. Après coup, le bouton maillon de chaque ligne le lie à
+celle du dessus ou l'en détache. Détacher ne casse que ce maillon-là :
+ce qui suit reste soudé, sinon défaire un tri-set le ferait exploser
+en trois.
+
+**Les lire.** Dans la fiche du programme, une suite de 2+ tient dans
+un encadré, avec ses exercices étiquetés A1, A2… Il n'y a pas de
+limite à 2 : un tri-set ou un giant set s'affiche pareil.
+
+**Les faire.** En séance, le bloc entier tient sur **une seule carte**
+— dans la salle on fait A1 puis A2 sans repos, les faire glisser l'un
+après l'autre n'avait aucun sens. La carte s'organise **par tour** :
+tour 1 (A1 puis A2), tour 2, et ainsi de suite. La série en attente
+suit cet ordre-là, le bouton dit laquelle il valide (« Valider A2 ·
+tour 2 »), et la carte va la chercher si elle est sortie de l'écran.
+Chaque exercice garde son propre poids de départ et son propre
+historique : le superset ne change que la mise en page et l'ordre, pas
+les données écrites.
 
 ## Ce qui vient du langage Apple
 

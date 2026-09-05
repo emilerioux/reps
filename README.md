@@ -14,8 +14,9 @@ source ; `workout-tracker` en reçoit une copie à chaque déploiement.
 Reps remplace *Mes Workouts*. Le code de l'ancienne app vit dans l'historique
 Git du dépôt `workout-tracker` (commit `02a5b00`), et ses données sont toujours
 dans le navigateur. Reps ne les lit que sur demande explicite, depuis
-Réglages → *Importer depuis Mes Workouts* — et c'est une copie, jamais un
-déplacement.
+Réglages → *Ancienne app* → *Récupérer mes données* — et c'est une copie, jamais
+un déplacement. L'option est en bas des réglages, derrière un bouton : elle ne
+sert qu'une fois.
 
 > **L'import doit se faire depuis l'icône déjà installée.** Sur iOS, une app
 > ajoutée à l'écran d'accueil a son propre espace de stockage : les anciennes
@@ -29,7 +30,7 @@ déplacement.
 | **Programmes** | Créer et éditer des programmes (exercices, séries, reps, supersets). Chaque programme reçoit automatiquement une couleur libre — jamais deux fois la même — et la porte partout : filet à gauche de sa carte, de ses exercices, et de chacune de ses entrées d'historique. Glisser la poignée d'une ligne réordonne les exercices. Un programme se lance en séance guidée. |
 | **Historique** | Un calendrier mois par mois — une case pleine = une séance — et dessous les entrées de ce mois, groupées par jour avec leur volume. Toucher une case isole la journée. Glisser une ligne vers la gauche pour la supprimer. Ajout manuel possible. |
 | **Progrès** | Courbe de progression par exercice (poids ou reps), poids corporel, photos. |
-| **Réglages** | Apparence (clair / sombre / système et dix accents), import depuis l'ancienne app, export/import de fichier, renommage d'exercices, remise à zéro. |
+| **Réglages** | Apparence (clair ou sombre, dix accents), export/import de fichier, renommage d'exercices, récupération depuis l'ancienne app, remise à zéro. |
 
 ## La séance guidée
 
@@ -95,8 +96,11 @@ n'existe jamais uniquement en image.
 
 Deux axes indépendants, dans Réglages → *Apparence*.
 
-- **Le mode** — *Système* (par défaut), *Clair* ou *Sombre*. En mode système, un
-  changement côté iOS s'applique en direct.
+- **Le mode** — *Clair* ou *Sombre*, et rien d'autre. Le réglage iOS sert de
+  valeur de départ à la première ouverture ; ensuite c'est le choix explicite qui
+  commande. Un mode « Système » ne disait rien de plus que le thème qu'il
+  choisissait, et laissait l'app changer d'apparence toute seule au coucher du
+  soleil.
 - **L'accent** — dix teintes. Une seule valeur est stockée par teinte : le haut
   du dégradé, la version texte et les fonds teintés en sont dérivés en
   `color-mix`. Sur fond clair, l'accent en **texte** est assombri à 55 % — sinon

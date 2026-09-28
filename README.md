@@ -78,6 +78,35 @@ Un exercice déjà écrit dans l'historique qui reçoit une série de plus
 dans l'Historique sous la journée ; la toucher permet de la corriger ou
 de la supprimer.
 
+**Suggestion de progression.** Même poids aux 3 dernières séances d'un
+exercice → une bulle sur la carte (« 3 séances de suite à 135 lb — essaie
+140 aujourd'hui ? »). Rien ne change tant qu'on ne touche pas *Essayer* ;
+*Pas aujourd'hui* la fait disparaître. Le pas est de 5 lb dès 100 lb,
+2,5 lb en dessous.
+
+**Historique d'un exercice** — menu ⋯ en séance, ou *Toutes les séances*
+sous la courbe de Progrès : chaque séance, série par série. L'anneau
+« record » ne marque qu'une série, la première à avoir atteint le record.
+
+## Autres outils
+
+- **Bilan de la semaine** (haut de Programmes) — séances, volume et
+  minutes de cardio du lundi à aujourd'hui, avec l'écart face à la
+  semaine passée, en encre neutre (un « −2 » n'est pas une faute).
+- **Rappel de sauvegarde** — 30 jours sans export (ou jamais, après deux
+  semaines d'historique) : une carte propose d'exporter. *Plus tard*
+  repousse d'une semaine. Date du dernier export : `wt2-last-export`.
+- **Séries par muscle** (Progrès → Muscles) — cette semaine ou 4
+  semaines, comparé à la période d'avant. Le muscle est deviné d'après
+  le nom (`guessMuscle`, FR et EN) et se corrige en touchant un muscle,
+  ou dans Réglages → Gérer mes exercices (`wt2-muscles`). Ordre fixe des
+  muscles, et un muscle à zéro reste affiché : c'est lui qu'on cherche.
+- **Corriger une entrée** — toucher une ligne de l'Historique : date,
+  séries une par une (ajouter/retirer), ou les champs du cardio. Le
+  record est recalculé, il peut aussi baisser (`editLog`).
+- **Dupliquer un programme** — dans sa fiche ; la copie prend sa propre
+  couleur et s'ouvre dans l'éditeur.
+
 ## Le cardio
 
 Un exercice porte `kind: "cardio"` (dans le programme comme dans
@@ -196,7 +225,7 @@ franches).
 
 Tout est sous le préfixe **`wt2-`** dans `localStorage` : `wt2-programs`,
 `wt2-logs`, `wt2-bodyweight`, `wt2-notes`, `wt2-prs`, `wt2-sessions`,
-`wt2-journal` (notes de séance).
+`wt2-journal` (notes de séance), `wt2-muscles`.
 Les deux apps partagent l'origine `emilerioux.github.io`, donc ce préfixe est
 ce qui garantit qu'on n'écrase jamais l'ancienne. Les photos vivent dans une
 base IndexedDB séparée (`reps-photos`).

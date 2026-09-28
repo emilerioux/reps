@@ -54,6 +54,41 @@ un superset entier.
 | **Glisser le calendrier** | Il résiste au lieu de partir : il annonce qu'il y a un mois de l'autre côté, et c'est la vitesse au relâchement qui décide. Le nouveau mois entre du côté d'où vient le geste. |
 | **Tirer une feuille vers le bas** | Elle suit le doigt, résiste vers le haut, et un coup sec la referme même à mi-chemin. |
 
+## Modifier une séance en cours
+
+Le bouton **⋯** en haut à droite de la séance ouvre une feuille sur
+l'exercice affiché (dans un superset, on choisit A1, A2… en haut).
+Tout ce qui s'y change ne vaut **que pour aujourd'hui** : le programme
+ne bouge pas.
+
+- **Séries − / +** — jamais sous le nombre de séries déjà faites.
+- **Remplacer** — seulement tant qu'aucune série n'est validée.
+- **Passer** — l'exercice ne compte plus ; les séries déjà faites sont
+  gardées. Une ligne « passé aujourd'hui · Reprendre » reste sur la
+  carte : passer n'est jamais définitif.
+- **Note technique** — la note permanente de l'exercice, affichée sur
+  sa carte à chaque séance (la même que dans Réglages).
+- **Ajouter un exercice** — musculation ou cardio, avec une case pour
+  le garder aussi dans le programme.
+
+Un exercice déjà écrit dans l'historique qui reçoit une série de plus
+**réécrit** son entrée (`updateLog`), il n'en crée pas une deuxième.
+
+**Note de séance** : un champ dans la feuille de fin. Elle s'affiche
+dans l'Historique sous la journée ; la toucher permet de la corriger ou
+de la supprimer.
+
+## Le cardio
+
+Un exercice porte `kind: "cardio"` (dans le programme comme dans
+l'historique). Pas de poids ni de reps : **durée** (obligatoire),
+**distance** et **calories** (facultatives), **intensité** Facile /
+Modéré / Intense. En séance il a sa propre carte avec des champs à
+taper ; il ne s'enchaîne jamais en superset. Il n'entre ni dans les
+records ni dans le volume en lb. Dans Progrès, l'interrupteur
+Poids/Reps devient Durée/Distance. Entrée manuelle : Historique →
+*Ajouter une entrée* → Cardio.
+
 ## Les supersets
 
 Un superset, ce sont des exercices **qui se suivent** et qui portent le
@@ -160,7 +195,8 @@ franches).
 ## Données
 
 Tout est sous le préfixe **`wt2-`** dans `localStorage` : `wt2-programs`,
-`wt2-logs`, `wt2-bodyweight`, `wt2-notes`, `wt2-prs`, `wt2-sessions`.
+`wt2-logs`, `wt2-bodyweight`, `wt2-notes`, `wt2-prs`, `wt2-sessions`,
+`wt2-journal` (notes de séance).
 Les deux apps partagent l'origine `emilerioux.github.io`, donc ce préfixe est
 ce qui garantit qu'on n'écrase jamais l'ancienne. Les photos vivent dans une
 base IndexedDB séparée (`reps-photos`).

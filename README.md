@@ -88,7 +88,33 @@ exercice → une bulle sur la carte (« 3 séances de suite à 135 lb — essaie
 sous la courbe de Progrès : chaque séance, série par série. L'anneau
 « record » ne marque qu'une série, la première à avoir atteint le record.
 
+**Reprendre une séance.** Tout l'état de la séance est recopié dans
+`wt2-live-session` à chaque changement. Si l'app se ferme en plein milieu,
+la rouvrir y ramène (jusqu'à 6 h plus tard). Effacé en fermant la séance.
+
+**Séance libre** (Programmes → *Séance libre*) : une séance sans programme,
+les exercices s'ajoutent au fil de l'eau. À la fin, *Enregistrer cette séance
+comme programme* garde les exercices faits et rattache les entrées au
+nouveau programme.
+
+**Vidéo de technique** : un lien (YouTube, TikTok…) par exercice, depuis le
+menu ⋯ → *Note et vidéo de technique* ou Réglages → Gérer mes exercices
+(`wt2-links`). Il s'affiche sur la carte en séance.
+
+**Sélecteur d'exercice filtré** : en ajoutant un cardio on ne voit que le
+cardio, et inversement ; un nom qui existe déjà de l'autre type n'est pas
+recréé.
+
 ## Autres outils
+
+- **Objectifs** (Programmes) — un poids à atteindre (le record), ou une
+  distance/durée en cardio (la meilleure séance), avec date facultative.
+  Barre de progression depuis le niveau au moment de le fixer ; bandeau
+  « Objectif atteint » en séance, toast ailleurs (`wt2-goals`).
+- **Jalons** — 21 paliers (séances, semaines d'affilée, volume, km et heures
+  de cardio), calculés depuis l'historique. Seul ce qui a été fêté est
+  retenu (`wt2-badges-seen`) ; au premier lancement, les jalons déjà acquis
+  sont notés sans fête.
 
 - **Bilan de la semaine** (haut de Programmes) — séances, volume et
   minutes de cardio du lundi à aujourd'hui, avec l'écart face à la
@@ -225,7 +251,7 @@ franches).
 
 Tout est sous le préfixe **`wt2-`** dans `localStorage` : `wt2-programs`,
 `wt2-logs`, `wt2-bodyweight`, `wt2-notes`, `wt2-prs`, `wt2-sessions`,
-`wt2-journal` (notes de séance), `wt2-muscles`.
+`wt2-journal` (notes de séance), `wt2-muscles`, `wt2-goals`, `wt2-links`, `wt2-badges-seen`, `wt2-live-session` (séance en cours).
 Les deux apps partagent l'origine `emilerioux.github.io`, donc ce préfixe est
 ce qui garantit qu'on n'écrase jamais l'ancienne. Les photos vivent dans une
 base IndexedDB séparée (`reps-photos`).

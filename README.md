@@ -132,6 +132,11 @@ recréé.
   record est recalculé, il peut aussi baisser (`editLog`).
 - **Dupliquer un programme** — dans sa fiche ; la copie prend sa propre
   couleur et s'ouvre dans l'éditeur.
+- **Programmes livrés** — `GIFTS` dans `data.js` : un programme préparé
+  hors de l'app (avec ses notes et muscles) arrive au prochain lancement
+  après un déploiement. Ajouté une seule fois par appareil (`wt2-gifts`),
+  donc le supprimer ne le fait pas revenir ; notes et muscles déjà choisis
+  ne sont jamais écrasés. Premier : « Muscles oubliés » (2026-10-02).
 
 ## Le cardio
 

@@ -54,6 +54,31 @@ un superset entier.
 | **Glisser le calendrier** | Il résiste au lieu de partir : il annonce qu'il y a un mois de l'autre côté, et c'est la vitesse au relâchement qui décide. Le nouveau mois entre du côté d'où vient le geste. |
 | **Tirer une feuille vers le bas** | Elle suit le doigt, résiste vers le haut, et un coup sec la referme même à mi-chemin. |
 
+## La fiche d'exercice
+
+Une seule feuille pour modifier un exercice, d'où qu'on vienne
+(`js/fiche.js`) : l'éditeur de programme, le menu ⋯ en séance, une
+entrée d'historique (corriger ou ajouter), Réglages → Mes exercices.
+Toujours le même ordre :
+
+1. **Étiquette** — ce qu'on modifie : *Dans « Push »*, *Cette séance
+   seulement*, *Entrée · jeudi 1 octobre*, *Mes exercices*…
+2. **Nom** — avec un chevron quand on peut le changer.
+3. **Ce qui ne vaut qu'ici** — séries, reps, poids, durée.
+4. **L'exercice — partout** — muscle, note et vidéo, en rangées qui
+   se déplient.
+5. **Actions de l'endroit** (passer, remplacer, historique…).
+6. **Enregistrer**, vert, toujours en bas ; l'action destructive
+   (retirer, supprimer) en texte rouge discret dessous.
+
+Rien ne s'écrit avant *Enregistrer* ; une action (passer, remplacer…)
+enregistre d'abord ce qui a été changé. Les chiffres sont des − / +
+qu'on peut toucher pour taper au clavier. Les reps d'un programme
+acceptent une fourchette (« 8-10 ») : le − / + décale les deux bornes.
+
+L'éditeur de programme demande avant de quitter s'il y a des
+changements non enregistrés (flèche retour ou glissé depuis le bord).
+
 ## Modifier une séance en cours
 
 Le bouton **⋯** en haut à droite de la séance ouvre une feuille sur
@@ -87,6 +112,11 @@ exercice → une bulle sur la carte (« 3 séances de suite à 135 lb — essaie
 **Historique d'un exercice** — menu ⋯ en séance, ou *Toutes les séances*
 sous la courbe de Progrès : chaque séance, série par série. L'anneau
 « record » ne marque qu'une série, la première à avoir atteint le record.
+
+**Le X ne termine rien tout seul.** Il ouvre le bilan ; seule
+*Terminer la séance* ferme la séance. Toucher en haut, glisser la
+feuille vers le bas ou *Continuer la séance* y ramène, chrono compris.
+Sans aucune série validée, le X demande avant de quitter.
 
 **Reprendre une séance.** Tout l'état de la séance est recopié dans
 `wt2-live-session` à chaque changement. Si l'app se ferme en plein milieu,
@@ -300,6 +330,7 @@ js/theme.js     mode clair/sombre, dix accents, tokens dérivés
 js/motion.js    ressorts, projection, élastique, gestes réutilisables
 js/data.js      modèle, stockage wt2-, import/export, photos
 js/chart.js     graphiques SVG mono-série avec viseur et infobulle
+js/fiche.js     la fiche d'exercice commune : − / + tapables, « partout »
 js/session.js   l'écran de séance
 js/views.js     les quatre onglets, navigation, feuilles, sélecteurs
 js/app.js       amorçage et câblage

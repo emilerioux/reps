@@ -137,8 +137,12 @@ recréé.
 
 ## Autres outils
 
-- **Objectifs** (Programmes) — un poids à atteindre (le record), ou une
-  distance/durée en cardio (la meilleure séance), avec date facultative.
+- **Objectifs** (Programmes) — un poids à atteindre (le record), un nombre
+  de reps en une série (à un poids minimum ou à n'importe quel poids), une
+  distance/durée en cardio (la meilleure séance), ou un poids corporel à
+  atteindre, en montant ou en descendant (la dernière pesée), avec date
+  facultative. Ce qui reste s'affiche sur la carte de l'exercice en séance
+  et suit les séries validées.
   Barre de progression depuis le niveau au moment de le fixer ; bandeau
   « Objectif atteint » en séance, toast ailleurs (`wt2-goals`).
 - **Jalons** — 21 paliers (séances, semaines d'affilée, volume, km et heures
@@ -146,6 +150,12 @@ recréé.
   retenu (`wt2-badges-seen`) ; au premier lancement, les jalons déjà acquis
   sont notés sans fête.
 
+- **Récap du mois** (Programmes) — séances, volume, cardio comparés au mois
+  d'avant, records battus, objectifs atteints et séries par muscle ; les
+  flèches changent de mois. Tout est recalculé depuis l'historique.
+- **1RM estimé** (Progrès → Exercices) — la meilleure série de chaque séance
+  ramenée à une rep (Epley), pour comparer des séries de poids et de reps
+  différents. Rien pour une série sans poids.
 - **Bilan de la semaine** (haut de Programmes) — séances, volume et
   minutes de cardio du lundi à aujourd'hui, avec l'écart face à la
   semaine passée, en encre neutre (un « −2 » n'est pas une faute).
